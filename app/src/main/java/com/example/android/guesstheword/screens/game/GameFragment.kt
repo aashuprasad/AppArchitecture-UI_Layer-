@@ -47,19 +47,17 @@ class GameFragment : Fragment() {
                 container,
                 false
         )
-        Log.i("GameFragment", "Called ViewModelProvider")
-        //Get Viewmodel
+
+
         viewModel = ViewModelProvider(this).get(GameViewModel::class.java)
         binding.gameViewModel = viewModel
-        viewModel.score.observe(viewLifecycleOwner, Observer{newScore->
-            binding.scoreText.text =newScore.toString()
-        })
+
+        binding.setLifecycleOwner(this)
+
         viewModel.currentTime.observe(viewLifecycleOwner, Observer{newTime->
             binding.timerText.text = DateUtils.formatElapsedTime(newTime)
         })
-        viewModel.word.observe(viewLifecycleOwner, Observer{newWord->
-            binding.wordText.text = newWord
-        })
+
         viewModel.eventGameFinish.observe(viewLifecycleOwner, Observer{isFinished ->
             if(isFinished){
                 val currentScore = viewModel.score.value ?:0
